@@ -275,6 +275,11 @@ def get_employees():
     region_id = request.args.get("region_id", type=int)
     employee_name = request.args.get("employee_name", type=str)
 
+    # Handle FIQL filter
+    fiql_filter = request.args.get("$filter")
+    if fiql_filter and "employee_name==" in fiql_filter:
+        employee_name = fiql_filter.split("employee_name==")[1]
+
     if employee_id is not None:
         result = [e for e in result if e["employee_id"] == employee_id]
 
